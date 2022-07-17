@@ -3,8 +3,23 @@ import './contact.css'
 import {ImMail4} from 'react-icons/im'
 import {BsDiscord} from 'react-icons/bs'
 import {FaLinkedin} from 'react-icons/fa'
+import { useRef } from 'react';
+import emailjs from 'emailjs-com'
 
-const contact = () => {
+const Contact = () => {
+  const form = useRef();
+
+  const sendEmail = (e) => {
+    e.preventDefault();
+
+    emailjs.sendForm('service_ew4egtj', 'template_kwmfuim', form.current, 'user_wrKTebSqoD5opetzq')
+      .then((result) => {
+          console.log(result.text);
+      }, (error) => {
+          console.log(error.text);
+      });
+  };
+
   return (
     <section id='contacts'>
       <h5>Get In Touch</h5>
@@ -29,11 +44,11 @@ const contact = () => {
           <article>
               <FaLinkedin className='contact__option-icon'/>
               <h4>LinkedIn</h4>
-              <h5>https://www.linkedin.com/in/herman-rademeyer-a14aa119a</h5>
+              <h5></h5>
               <a href="https://www.linkedin.com/in/herman-rademeyer-a14aa119a">Connect on LinkedIn</a>
           </article>
         </div>
-        <form action="">
+        <form ref={form} onSubmit={form}>
           <input type="text" name='name' placeholder='Full Name' required/>
           <input type="email" name='email' placeholder='Your Email' required />
           <textarea name="message" placeholder='Your Message' required rows="7"></textarea>
@@ -44,4 +59,4 @@ const contact = () => {
   )
 }
 
-export default contact
+export default Contact
